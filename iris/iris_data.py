@@ -23,6 +23,7 @@ def maybe_download():
 def load_data(label_name='Species'):
     """
     Parses the csv file in TRAIN_URL and TEST_URL.
+
     With feature x, label y
     returns the iris dataset as (train_x, train_y), (test_x, test_y).
     """
@@ -37,6 +38,9 @@ def load_data(label_name='Species'):
         names=CSV_COLUMN_NAMES,  # list of column names
         header=0  # ignore the first row of the CSV file.
     )
+
+    # CSV header appears to be irrelevant and contains:
+    # number of records, number of features, the 3 species names
 
     # train now holds a pandas DataFrame, which is data structure
     # analogous to a table.
@@ -68,7 +72,13 @@ def train_input_fn(features, labels, batch_size):
 
 
 def eval_input_fn(features, labels, batch_size):
-    """An input function for evaluation or prediction"""
+    """
+    An input function for evaluation or prediction
+
+    This function wraps data to return a `tf.data.Dataset`,
+    which will be used by TensorFlow in e.g.
+    `classifier.evaluate` and `classifier.predict`
+    """
     features = dict(features)
     if labels is None:
         # No labels, use only features.

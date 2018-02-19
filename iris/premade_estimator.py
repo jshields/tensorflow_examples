@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 """
-An Example of a DNNClassifier (Deep Neural Network) for the Iris dataset.
+An Example of a DNNClassifier (a Deep Neural Network estimator) for the Iris dataset.
 
 General steps:
 Import and parse the data sets.
@@ -65,14 +65,14 @@ def main(argv):
                                                   args.batch_size),
         steps=args.train_steps)
 
-    # Evaluate the model.
+    # Evaluate the model's accuracy based on test data with known labels
     eval_result = classifier.evaluate(
         input_fn=lambda: iris_data.eval_input_fn(test_x, test_y,
                                                  args.batch_size))
 
     print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
-    # Generate predictions from the model
+    # Generate label predictions from the model based on input features
     expected = ['Setosa', 'Versicolor', 'Virginica']
     predict_x = {
         'SepalLength': [5.1, 5.9, 6.9],
@@ -81,6 +81,8 @@ def main(argv):
         'PetalWidth': [0.5, 1.5, 2.1],
     }
 
+    # `labels` being passed as None this time because we are trying to predict the labels,
+    # instead of evaluate as done above
     predictions = classifier.predict(
         input_fn=lambda: iris_data.eval_input_fn(predict_x,
                                                  labels=None,
