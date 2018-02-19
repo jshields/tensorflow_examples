@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
 STATUS=0
 
 # Insert filemarkers to satisfy Apache license
@@ -9,7 +11,7 @@ for FILENAME in $PYFILES; do
     if ! grep -q "Modified by Joshua Shields" $FILENAME; then
         # mark file and set status to stop the commit
         printf "\n# Modified by Joshua Shields\n" >> $FILENAME
-        echo "Marked $FILENAME"
+        echo "Marked $FILENAME, will stop the commit so change can be staged"
         STATUS=1
     fi
 done
