@@ -10,3 +10,5 @@ if __name__ == '__main__':
     sess = tf.Session()
     greeting = sess.run(hello).decode()
     print(greeting)
+
+# Modified by Joshua Shields

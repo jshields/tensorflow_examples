@@ -1,3 +1,7 @@
+"""
+Based on:
+https://www.tensorflow.org/get_started/get_started_for_beginners#the_iris_classification_problem
+"""
 import pandas as pd
 import tensorflow as tf
 
@@ -8,23 +12,47 @@ CSV_COLUMN_NAMES = ['SepalLength', 'SepalWidth',
                     'PetalLength', 'PetalWidth', 'Species']
 SPECIES = ['Setosa', 'Versicolor', 'Virginica']
 
+
 def maybe_download():
     train_path = tf.keras.utils.get_file(TRAIN_URL.split('/')[-1], TRAIN_URL)
     test_path = tf.keras.utils.get_file(TEST_URL.split('/')[-1], TEST_URL)
 
     return train_path, test_path
 
-def load_data(y_name='Species'):
-    """Returns the iris dataset as (train_x, train_y), (test_x, test_y)."""
+
+def load_data(label_name='Species'):
+    """
+    Parses the csv file in TRAIN_URL and TEST_URL.
+    With feature x, label y
+    returns the iris dataset as (train_x, train_y), (test_x, test_y).
+    """
+    # Create a local copy of the training set.
     train_path, test_path = maybe_download()
 
-    train = pd.read_csv(train_path, names=CSV_COLUMN_NAMES, header=0)
-    train_x, train_y = train, train.pop(y_name)
+    # train_path now holds the pathname: ~/.keras/datasets/iris_training.csv
 
+    # Parse the local CSV file.
+    train = pd.read_csv(
+        train_path,
+        names=CSV_COLUMN_NAMES,  # list of column names
+        header=0  # ignore the first row of the CSV file.
+    )
+
+    # train now holds a pandas DataFrame, which is data structure
+    # analogous to a table.
+
+    # 1. Assign the DataFrame's labels (the right-most column) to train_label.
+    # 2. Delete (pop) the labels from the DataFrame.
+    # 3. Assign the remainder of the DataFrame to train_features
+    train_features, train_label = train, train.pop(label_name)
+
+    # Apply the preceding logic to the test set.
+    test_path = tf.keras.utils.get_file(TEST_URL.split('/')[-1], TEST_URL)
     test = pd.read_csv(test_path, names=CSV_COLUMN_NAMES, header=0)
-    test_x, test_y = test, test.pop(y_name)
+    test_features, test_label = test, test.pop(label_name)
 
-    return (train_x, train_y), (test_x, test_y)
+    # Return four DataFrames.
+    return (train_features, train_label), (test_features, test_label)
 
 
 def train_input_fn(features, labels, batch_size):
@@ -41,7 +69,7 @@ def train_input_fn(features, labels, batch_size):
 
 def eval_input_fn(features, labels, batch_size):
     """An input function for evaluation or prediction"""
-    features=dict(features)
+    features = dict(features)
     if labels is None:
         # No labels, use only features.
         inputs = features
@@ -65,6 +93,7 @@ def eval_input_fn(features, labels, batch_size):
 # `tf.parse_csv` sets the types of the outputs to match the examples given in
 #     the `record_defaults` argument.
 CSV_TYPES = [[0.0], [0.0], [0.0], [0.0], [0]]
+
 
 def _parse_line(line):
     # Decode the line into its fields
@@ -91,4 +120,5 @@ def csv_input_fn(csv_path, batch_size):
 
     # Return the dataset.
     return dataset
+
 # Modified by Joshua Shields

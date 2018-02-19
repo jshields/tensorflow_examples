@@ -1,16 +1,17 @@
 # Tensorflow Examples
 
-Trying out Tensorflow
+Trying out TensorFlow
 
 **Disclaimer:**
-This Source and Work may be considered Derivative Works of https://github.com/tensorflow/models,
-and/or tensorflow.org content.
-Attribution notices list the original authors and contributors,
-which do not include the owner of this repository,
+This Source and Work may be considered Derivative Works of https://github.com/tensorflow/models.
+Attribution notices list the original copyright, authors and contributors,
 and will not reflect the changes or additional files the owner of this repository may have added.
 Some or all files may be be modified from the original source.
 Modifications may or may not consist of substantial changes, including but not limited to changing the file path or file contents.
 Some or all files may or may not be from the original source, and not all files from the original source may be present in this repository.
+A good faith effort has been made to mark all relevant Source files with a modification notice in order to satisfy the LICENSE,
+as well as to meet all other requirements of the LICENSE.
+
 
 Initial ideas:
 * flower classification
@@ -27,6 +28,10 @@ Some Example Datasets:
 
 
 ## Usage:
+
+Note to self if checking out on a new machine:
+
+    cp pre-commit.template .git/hooks/
 
 Install:
 
