@@ -1,3 +1,0 @@
-#!/bin/sh
-./../../filemarker.sh
-exit 1

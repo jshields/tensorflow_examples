@@ -31,7 +31,9 @@ Some Example Datasets:
 
 Note to self if checking out on a new machine:
 
-    cp pre-commit.template .git/hooks/
+    sudo chmod +x filemarker.sh
+    cp filemarker.sh .git/hooks/pre-commit
+
 
 Install:
 

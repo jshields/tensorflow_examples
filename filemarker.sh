@@ -9,3 +9,6 @@ for FILENAME in $PYFILES; do
         printf "\n# Modified by Joshua Shields\n" >> $FILENAME
     fi
 done
+
+echo "Pre-commit hook executed"
+exit 1
