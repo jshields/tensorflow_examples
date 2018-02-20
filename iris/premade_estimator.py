@@ -13,6 +13,9 @@
 #  limitations under the License.
 
 """
+
+https://github.com/tensorflow/models/tree/master/samples/core/get_started
+
 An Example of a DNNClassifier (a Deep Neural Network estimator) for the Iris dataset.
 
 General steps:
@@ -73,7 +76,13 @@ def main(argv):
     print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
     # Generate label predictions from the model based on input features
+
+    # correct species label for the 3 examples,
+    # in a real scenario we would not likely have this,
+    # but it provides final validation that the prediction step worked
     expected = ['Setosa', 'Versicolor', 'Virginica']
+
+    # 3 examples to predict the label (species) of based on 4 features each
     predict_x = {
         'SepalLength': [5.1, 5.9, 6.9],
         'SepalWidth': [3.3, 3.0, 3.1],

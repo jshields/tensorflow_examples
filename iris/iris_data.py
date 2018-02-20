@@ -38,11 +38,10 @@ def load_data(label_name='Species'):
         names=CSV_COLUMN_NAMES,  # list of column names
         header=0  # ignore the first row of the CSV file.
     )
+    # CSV header irrelevant to our program. Appears to contain:
+    # number of examples (rows of data), number of features, the 3 species names
 
-    # CSV header appears to be irrelevant and contains:
-    # number of records, number of features, the 3 species names
-
-    # train now holds a pandas DataFrame, which is data structure
+    # `train` now holds a pandas DataFrame, which is data structure
     # analogous to a table.
 
     # 1. Assign the DataFrame's labels (the right-most column) to train_label.

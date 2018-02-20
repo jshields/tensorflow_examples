@@ -27,6 +27,12 @@ Some Example Datasets:
   * Optical Recognition of Handwritten Digits Dataset: http://archive.ics.uci.edu/ml/datasets/optical+recognition+of+handwritten+digits
 
 
+
+Other (Python) machine learning libraries:
+  * http://scikit-learn.org/stable/
+  * https://keras.io/
+    * TensorFlow implements Keras API: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python/keras
+
 ## Usage:
 
 Note to self if checking out on a new machine:
