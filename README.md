@@ -25,6 +25,8 @@ Some Example Datasets:
 * hand written digits
   * https://en.wikipedia.org/wiki/MNIST_database: http://yann.lecun.com/exdb/mnist/
   * Optical Recognition of Handwritten Digits Dataset: http://archive.ics.uci.edu/ml/datasets/optical+recognition+of+handwritten+digits
+  * https://www.tensorflow.org/versions/r1.6/tutorials/layers
+  * `tf.keras.datasets.mnist.load_data()`
 
 
 
@@ -32,6 +34,8 @@ Other (Python) machine learning libraries:
   * http://scikit-learn.org/stable/
   * https://keras.io/
     * TensorFlow implements Keras API: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python/keras
+
+ML glossary: https://developers.google.com/machine-learning/glossary/
 
 ## Usage:
 

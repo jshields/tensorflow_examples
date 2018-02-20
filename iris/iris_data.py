@@ -14,6 +14,9 @@ SPECIES = ['Setosa', 'Versicolor', 'Virginica']
 
 
 def maybe_download():
+    """
+    Download dataset to local cache if not there already ( ~/.keras/datasets/)
+    """
     train_path = tf.keras.utils.get_file(TRAIN_URL.split('/')[-1], TRAIN_URL)
     test_path = tf.keras.utils.get_file(TEST_URL.split('/')[-1], TEST_URL)
 
@@ -59,11 +62,55 @@ def load_data(label_name='Species'):
 
 
 def train_input_fn(features, labels, batch_size):
-    """An input function for training"""
-    # Convert the inputs to a Dataset.
+    """
+    An input function for training
+
+    Arguments expecting an "array" can accept nearly anything that can be converted to an array with numpy.array.
+    One exception is tuple which has special meaning for Datasets:
+    Datasets can represent a collection of simple arrays,
+    but datasets are much more powerful than this.
+    Datasets transparently handle any nested combination of dictionaries or tuples.
+    https://www.tensorflow.org/get_started/datasets_quickstart#slices
+
+    Args:
+        features: A {'feature_name':array} dictionary (or DataFrame) containing the raw input features.
+        labels : An array (in this case pandas Series) containing the label for each example.
+        batch_size : An integer indicating the desired batch size.
+    """
+
+    """
+    NOTE:
+    Breakdown of `(dict(features), labels)` described here:
+    https://www.tensorflow.org/get_started/datasets_quickstart
+
+    tuple commonly represents pairs of (features, labels), e.g.
+    https://www.tensorflow.org/programmers_guide/datasets#reading_input_data
+
+    tuple is one way to achieve the form that the train method requires:
+    https://www.tensorflow.org/get_started/get_started_for_beginners#train_the_model
+
+    This appears to be common convention, and/or the form that `classifier.train` requires?
+
+    Create a dataset containing (features, labels) pairs:
+    """
     dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
 
-    # Shuffle, repeat, and batch the examples.
+    # Shuffle (randomize), repeat, and batch the examples.
+    """
+    Training works best if the training examples are in random order.
+    Setting the buffer_size to a value larger than the number of examples ensures that the data will be well shuffled.
+    During training, the train method typically processes the examples multiple times.
+    Calling the tf.data.Dataset.repeat method without any arguments ensures that
+    the train method has an infinite supply of (now shuffled) training set examples.
+
+    The train method processes a batch of examples at a time.
+    The tf.data.Dataset.batch method creates a batch by concatenating multiple examples.
+    This program sets the default batch size to 100,
+    meaning that the batch method will concatenate groups of 100 examples. The ideal batch size depends on the problem.
+    As a rule of thumb,
+    smaller batch sizes usually enable the train method to train the model faster
+    at the expense (sometimes) of accuracy.
+    """
     dataset = dataset.shuffle(1000).repeat().batch(batch_size)
 
     # Return the dataset.
@@ -75,7 +122,7 @@ def eval_input_fn(features, labels, batch_size):
     An input function for evaluation or prediction
 
     This function wraps data to return a `tf.data.Dataset`,
-    which will be used by TensorFlow in e.g.
+    which will be used by TensorFlow as `input_fn` in e.g.
     `classifier.evaluate` and `classifier.predict`
     """
     features = dict(features)

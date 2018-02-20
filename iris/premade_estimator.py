@@ -50,19 +50,44 @@ def main(argv):
     (train_x, train_y), (test_x, test_y) = iris_data.load_data()
 
     # Feature columns describe how to use the input.
+    # For more information see: https://www.tensorflow.org/get_started/feature_columns
     my_feature_columns = []
     for key in train_x.keys():
         my_feature_columns.append(tf.feature_column.numeric_column(key=key))
+    """
+    my_feature_columns = [
+        tf.feature_column.numeric_column(key='SepalLength'),
+        tf.feature_column.numeric_column(key='SepalWidth'),
+        tf.feature_column.numeric_column(key='PetalLength'),
+        tf.feature_column.numeric_column(key='PetalWidth')
+    ]
+    """
 
     # Build 2 hidden layer DNN with 10, 10 units respectively.
+    """
+    The ideal number of hidden layers and neurons depends on the problem and the data set.
+    Like many aspects of machine learning,
+    picking the ideal shape of the neural network requires some mixture of knowledge and experimentation.
+    As a rule of thumb,
+    increasing the number of hidden layers and neurons typically creates a more powerful model,
+    which requires more data to train effectively.
+    """
     classifier = tf.estimator.DNNClassifier(
         feature_columns=my_feature_columns,
-        # Two hidden layers of 10 nodes each.
+        # Two hidden layers of 10 nodes each
         hidden_units=[10, 10],
-        # The model must choose between 3 classes.
+        # The model must choose between 3 classes (the 3 species labels)
         n_classes=3)
 
     # Train the Model.
+    """
+    Increasing steps increases the amount of time the model will train.
+    Counter-intuitively, training a model longer does not guarantee a better model.
+    Choosing the right number of steps usually requires both experience and experimentation.
+
+    IDEA: Couldn't Q-learning be used to select the number of steps?
+    https://en.wikipedia.org/wiki/Q-learning
+    """
     classifier.train(
         input_fn=lambda: iris_data.train_input_fn(train_x, train_y,
                                                   args.batch_size),
