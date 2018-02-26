@@ -1,6 +1,7 @@
 # Tensorflow Examples
 
-Trying out TensorFlow
+Trying out TensorFlow.
+Heavily commented for my own reference.
 
 **Disclaimer:**
 This Source and Work may be considered Derivative Works of https://github.com/tensorflow/models.

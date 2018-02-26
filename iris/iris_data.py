@@ -76,10 +76,14 @@ def train_input_fn(features, labels, batch_size):
         features: A {'feature_name':array} dictionary (or DataFrame) containing the raw input features.
         labels : An array (in this case pandas Series) containing the label for each example.
         batch_size : An integer indicating the desired batch size.
+    Returns: a batch of data to train on
     """
 
     """
     NOTE:
+    `from_tensor_slices` is a misleading method name IMO because it accepts almost anything as input,
+    not just tensor slices (e.g. from `tf.slice`)
+
     Breakdown of `(dict(features), labels)` described here:
     https://www.tensorflow.org/get_started/datasets_quickstart
 
@@ -89,7 +93,7 @@ def train_input_fn(features, labels, batch_size):
     tuple is one way to achieve the form that the train method requires:
     https://www.tensorflow.org/get_started/get_started_for_beginners#train_the_model
 
-    This appears to be common convention, and/or the form that `classifier.train` requires?
+    This appears to be common convention, and/or the form that `classifier.train` requires (?)
 
     Create a dataset containing (features, labels) pairs:
     """
@@ -113,7 +117,15 @@ def train_input_fn(features, labels, batch_size):
     """
     dataset = dataset.shuffle(1000).repeat().batch(batch_size)
 
-    # Return the dataset.
+    # some example docs use this instead of just returning the dataset:
+    # `return dataset.make_one_shot_iterator().get_next()`
+    # change on GitHub:
+    # https://github.com/tensorflow/models/commit/9e15020a82c2a2a5f4476a8410b82cec9780240f#diff-6d2deea599a30be0107d7e14b81880e6
+    # says "return dataset for r1.5"
+    # I am left to assume there is no need for an iterator,
+    # since the data gets shuffled and batched each time the function is called anyway,
+    # or perhaps the old way is deprecated (?)
+
     return dataset
 
 
